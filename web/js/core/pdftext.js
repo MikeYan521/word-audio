@@ -2,7 +2,8 @@
 
 import * as pdfjs from "../../vendor/pdfjs/pdf.min.mjs";
 
-pdfjs.GlobalWorkerOptions.workerSrc = "/vendor/pdfjs/pdf.worker.min.mjs";
+pdfjs.GlobalWorkerOptions.workerSrc =
+  new URL("../../vendor/pdfjs/pdf.worker.min.mjs", import.meta.url).href;
 
 const SCANNED_PAGE_CHAR_THRESHOLD = 25;
 const SCANNED_PDF_RATIO = 0.6;

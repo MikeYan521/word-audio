@@ -154,7 +154,7 @@ function uploadPanel(onDone) {
               let payload = null;
               let lastStatus = 0;
               for (const name of candidates) {
-                const res = await fetch(`/sample/${encodeURIComponent(name)}`);
+                const res = await fetch(new URL(`../../sample/${encodeURIComponent(name)}`, import.meta.url));
                 if (res.ok) { payload = await res.json(); break; }
                 lastStatus = res.status;
               }

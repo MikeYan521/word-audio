@@ -9,7 +9,8 @@ let implPromise = null;
 
 async function detectImplementation() {
   try {
-    const res = await fetch("/api/health", { cache: "no-store" });
+    // 相对路径：在子目录部署时（GitHub Pages）会 404，从而正确进入静态模式
+    const res = await fetch("api/health", { cache: "no-store" });
     if (res.ok) {
       const mod = await import("./api.server.js");
       return mod.serverApi;
@@ -28,7 +29,7 @@ export function backend() {
 export function audioUrlFor(word, accent, refresh = false) {
   const lemma = word && typeof word === "object" ? (word.lemma || word.display || "") : String(word || "");
   const suffix = refresh ? "&refresh=1" : "";
-  return `/api/audio?word=${encodeURIComponent(lemma)}&accent=${accent}${suffix}`;
+  return `api/audio?word=${encodeURIComponent(lemma)}&accent=${accent}${suffix}`;
 }
 
 export const api = new Proxy({}, {

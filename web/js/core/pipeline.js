@@ -281,7 +281,7 @@ export async function enrichWords(wordIds, { force = false, concurrency = 4 } = 
  */
 export async function fetchDict(lemma) {
   try {
-    const res = await fetch(`/api/dict?word=${encodeURIComponent(lemma)}`);
+    const res = await fetch(`api/dict?word=${encodeURIComponent(lemma)}`);
     if (res.ok) {
       const data = await res.json();
       if (data && (data.meaning_cn || data.uk_ipa || data.us_ipa)) return data;
@@ -329,7 +329,7 @@ export async function probeAudio(wordIds, accents = ["uk", "us"], concurrency = 
       for (const accent of accents) {
         let status = { available: false, retryable: true, provider: null, error: null };
         try {
-          const res = await fetch(`/api/audio?word=${encodeURIComponent(word.lemma)}&accent=${accent}`,
+          const res = await fetch(`api/audio?word=${encodeURIComponent(word.lemma)}&accent=${accent}`,
                                   { headers: { Range: "bytes=0-1" } });
           if (res.ok || res.status === 206) {
             status = { available: true, retryable: false, provider: res.headers.get("X-Audio-Provider"), error: null };

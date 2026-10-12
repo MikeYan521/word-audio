@@ -3,6 +3,9 @@
 
 const state = { tables: null, loading: null };
 
+// 数据文件用相对模块的路径解析，子目录部署也能找到
+const IPA_BASE = new URL("../../data/ipa/", import.meta.url);
+
 // 随项目发布的 ipa-dict 数据规模（来源：data/ipa 下的两个文件，导入时核对过）。
 // 首页状态栏直接用它，避免每次打开页面都去解析 4.6MB 文本 —— 手机上那是一段
 // 明显的主线程卡顿。真正的索引只在需要查询时才建立（loadIpa）。
@@ -35,8 +38,8 @@ export function loadIpa() {
   if (!state.loading) {
     state.loading = (async () => {
       const [ukText, usText] = await Promise.all([
-        loadText("/data/ipa/en_UK.txt"),
-        loadText("/data/ipa/en_US.txt"),
+        loadText(new URL("en_UK.txt", IPA_BASE).href),
+        loadText(new URL("en_US.txt", IPA_BASE).href),
       ]);
       const uk = parseTable(ukText);
       const us = parseTable(usText);
